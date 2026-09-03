@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مستكشف النظم البيئية | مدرسة الكوكب الدري النموذجية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-forest: #2d6a4f;
+      --forest-light: #52b788;
+      --earth-brown: #7f4f24;
+      --earth-light: #b08968;
+      --sea-blue: #1d3557;
+      --sea-light: #457b9d;
+      --desert-sand: #e9c46a;
+      --accent-coral: #e76f51;
+      --card-bg: #ffffff;
+      --text-dark: #1f2421;
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 50%, #e9edc9 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Bar */
+    header {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 4px solid var(--forest-light);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-badge {
+      width: 55px;
+      height: 55px;
+      background: radial-gradient(circle, #2d6a4f, #1b4332);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: 24px;
+      border: 3px solid var(--desert-sand);
+    }
+
+    .title-details h1 {
+      font-size: 1.15rem;
+      color: var(--primary-forest);
+      font-weight: 900;
+    }
+
+    .title-details p {
+      font-size: 0.85rem;
+      color: var(--earth-brown);
+      font-weight: 700;
+    }
+
+    .teacher-badge {
+      background: linear-gradient(135deg, var(--forest-light), var(--primary-forest));
+      color: white;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* Mascot Bar */
+    .mascot-bubble {
+      background: white;
+      border: 3px solid var(--desert-sand);
+      border-radius: 20px;
+      padding: 12px 18px;
+      margin: 15px auto;
+      max-width: 900px;
+      width: 92%;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mascot-avatar {
+      font-size: 2.5rem;
+      background: #fefae0;
+      border-radius: 50%;
+      padding: 6px 12px;
+      border: 2px dashed var(--earth-brown);
+    }
+
+    .mascot-text h4 {
+      color: var(--earth-brown);
+      font-size: 0.95rem;
+    }
+
+    .mascot-text p {
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    /* Navigation */
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 10px 0;
+      flex-wrap: wrap;
+      padding: 0 10px;
+    }
+
+    .tab-btn {
+      background: white;
+      border: 2px solid var(--forest-light);
+      padding: 10px 22px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--primary-forest);
+      transition: all 0.25s ease;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--primary-forest);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .main-container {
+      max-width: 1000px;
+      width: 92%;
+      margin: 10px auto 30px auto;
+      flex: 1;
+    }
+
+    .section-view {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .section-view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 20px;
+    }
+
+    /* Concept Cards */
+    .ecosystem-examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 15px;
+    }
+
+    .eco-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      background: #fafafa;
+    }
+
+    .eco-icon { font-size: 3rem; margin-bottom: 8px; }
+    .eco-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 8px;
+    }
+    .tag-dhana { background: var(--accent-coral); }
+    .tag-aqaba { background: var(--sea-light); }
+    .tag-ajloun { background: var(--forest-light); }
+
+    /* Games Sub-menu */
+    .sub-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .sub-btn {
+      background: #edf2f7;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      color: #4a5568;
+    }
+
+    .sub-btn.active {
+      background: var(--earth-brown);
+      color: white;
+    }
+
+    .action-btn {
+      background: var(--forest-light);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover { background: var(--primary-forest); }
+
+    /* Game 1: 10-Segment Wheel */
+    .wheel-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .wheel-wrapper {
+      position: relative;
+      width: 290px;
+      height: 290px;
+      margin: 15px 0;
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 24px solid #b7094c;
+      z-index: 20;
+    }
+
+    .wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 8px solid var(--earth-brown);
+      position: relative;
+      transition: transform 3.5s cubic-bezier(0.12, 0.9, 0.2, 1);
+      background: conic-gradient(
+        #52b788 0% 10%, #e9c46a 10% 20%, #457b9d 20% 30%, #e76f51 30% 40%, #a7c957 40% 50%,
+        #f4a261 50% 60%, #2a9d8f 60% 70%, #d4a373 70% 80%, #6b705c 80% 90%, #83c5be 90% 100%
+      );
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+
+    .wheel-interactive-box {
+      margin-top: 15px;
+      text-align: center;
+      max-width: 500px;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 12px;
+      border: 2px dashed #cbd5e1;
+      width: 100%;
+    }
+
+    .choice-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .btn-choice {
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .btn-alive { background: #2d6a4f; }
+    .btn-not-alive { background: #b08968; }
+
+    /* Game 2: Cups with Questions */
+    .cups-flex {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin: 25px 0;
+    }
+
+    .cup-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      width: 110px;
+    }
+
+    .cup-icon {
+      font-size: 4.2rem;
+      transition: transform 0.4s ease;
+      user-select: none;
+    }
+
+    .cup-icon.lifted {
+      transform: translateY(-25px);
+    }
+
+    .cup-label {
+      font-weight: 700;
+      color: var(--earth-brown);
+      margin-top: 5px;
+    }
+
+    .cup-question-panel {
+      background: #f1f5f9;
+      border: 2px solid #94a3b8;
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 15px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Game 3: Tower */
+    .tower-slots {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 8px;
+      max-width: 380px;
+      margin: 20px auto;
+      border: 3px dashed var(--earth-light);
+      padding: 15px;
+      border-radius: 12px;
+      min-height: 220px;
+    }
+
+    .tower-block {
+      background: var(--sea-light);
+      color: white;
+      padding: 12px;
+      text-align: center;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    /* Simulation Area */
+    .sim-board {
+      background: #e8f5e9;
+      border: 2px solid var(--forest-light);
+      border-radius: 14px;
+      min-height: 180px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      padding: 10px;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .sim-item { font-size: 2.2rem; }
+
+    /* Quiz Area */
+    .quiz-progress {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: var(--primary-forest);
+      flex-wrap: wrap;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .option-btn {
+      background: #f1f5f9;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: right;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .option-btn.correct { background: #d1fae5; border-color: #10b981; color: #065f46; }
+    .option-btn.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+
+    @media (max-width: 650px) {
+      .options-grid { grid-template-columns: 1fr; }
+      header { flex-direction: column; gap: 10px; text-align: center; }
+      .school-info { flex-direction: column; }
+      .cups-flex { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="school-info">
+      <div class="logo-badge">🪐</div>
+      <div class="title-details">
+        <h1>مدرسة الكوكب الدري النموذجية</h1>
+        <p>مستكشف النظم البيئية — الصف الخامس الأساسي</p>
+      </div>
+    </div>
+    <div class="teacher-badge">إشراف المعلمة: حنين بدران</div>
+  </header>
+
+  <div class="mascot-bubble">
+    <div class="mascot-avatar">🐿️</div>
+    <div class="mascot-text">
+      <h4>صديقكم السنجاب "بندق":</h4>
+      <p id="mascotMessage">أهلاً يا علماء المستقبل! الألعاب تم تطويرها الآن بتحديات تصنيف جديدة وشيقة!</p>
+    </div>
+  </div>
+
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('concepts')">🌿 1. واحة المفاهيم</button>
+    <button class="tab-btn" onclick="switchTab('games')">🎯 2. ركن التحديات (3 ألعاب)</button>
+    <button class="tab-btn" onclick="switchTab('simulation')">🔬 3. مختبر محاكاة النظم</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">🏆 4. الاختبار النهائي التراكمي</button>
+  </div>
+
+  <main class="main-container">
+
+    <div id="concepts" class="section-view active">
+      <div class="card">
+        <h2 style="color: var(--primary-forest); margin-bottom: 8px;">مفهوم النظام البيئي ومكوناته</h2>
+        <p>النظام البيئي هو مجتمع من الكائنات الحية التي تتفاعل مع المكونات غير الحية في بيئة محددة:</p>
+        <div class="ecosystem-examples">
+          <div class="eco-card">
+            <div class="eco-icon">🦌</div>
+            <span class="eco-tag tag-dhana">محمية ضانا الطبيعية</span>
+            <p><strong>بيئة برية:</strong> تحتضن الوعل النوبي وأشجار البطم والعرعر في توازن فريد مع الجبال والصخور والمناخ الجاف.</p>
+          </div>
+          <div class="eco-card">
+            <div class="eco-icon">🐠</div>
+            <span class="eco-tag tag-aqaba">خليج العقبة</span>
+            <p><strong>بيئة مائية:</strong> تضم حيداً مرجانياً غنياً بالأسماك والرخويات والسلاحف البحرية متفاعلة مع ملوحة وحرارة المياه وضوء الشمس.</p>
+          </div>
+          <div class="eco-card">
+            <div class="eco-icon">🌳</div>
+            <span class="eco-tag tag-ajloun">غابات عجلون</span>
+            <p><strong>بيئة حرجية:</strong> أشجار البلوط والقيقب، تحتضن الأرانب البرية والطيور في ظل رطوبة وتربة خصبة.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="games" class="section-view">
+      <div class="card">
+        <div class="sub-tabs">
+          <button class="sub-btn active" onclick="switchGame('wheel')">🎡 العجلة الدوارة (10 مكونات)</button>
+          <button class="sub-btn" onclick="switchGame('cups')">🥤 الأكواب المقلوبة (مستويات التنظيم)</button>
+          <button class="sub-btn" onclick="switchGame('tower')">🏗️ برج مستويات التنظيم</button>
+        </div>
+
+        <div id="game-wheel" class="game-content">
+          <h3 style="text-align:center; color: var(--earth-brown);">أدر العجلة المكونة من 10 عناصر وصنف المكون!</h3>
+          <div class="wheel-container">
+            <div class="wheel-wrapper">
+              <div class="wheel-pointer"></div>
+              <div class="wheel" id="wheelCircle"></div>
+            </div>
+            <button class="action-btn" id="spinBtn" onclick="spinWheel()">أدر العجلة الآن 🔄</button>
+
+            <div class="wheel-interactive-box" id="wheelBox" style="display:none;">
+              <h4 id="wheelTargetText" style="color: var(--primary-forest); font-size: 1.15rem; margin-bottom: 5px;">العنصر</h4>
+              <p>هل يمثل هذا العنصر مكوناً حياً أم مكوناً غير حي؟</p>
+              <div class="choice-group">
+                <button class="btn-choice btn-alive" onclick="verifyWheelChoice(true)">مكون حي 🌿</button>
+                <button class="btn-choice btn-not-alive" onclick="verifyWheelChoice(false)">مكون غير حي 🪨</button>
+              </div>
+              <div id="wheelFeedback" style="margin-top: 10px; font-weight: bold;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="game-cups" class="game-content" style="display:none;">
+          <h3 style="text-align:center; color: var(--earth-brown);">اختر كوباً ليظهر لك السؤال وتصنف الكائنات حسب مستويات التنظيم!</h3>
+          
+          <div class="cups-flex">
+            <div class="cup-card" onclick="liftCup(0)">
+              <div class="cup-icon" id="cupIcon-0">🥤</div>
+              <div class="cup-label">الكوب 1</div>
+            </div>
+            <div class="cup-card" onclick="liftCup(1)">
+              <div class="cup-icon" id="cupIcon-1">🥤</div>
+              <div class="cup-label">الكوب 2</div>
+            </div>
+            <div class="cup-card" onclick="liftCup(2)">
+              <div class="cup-icon" id="cupIcon-2">🥤</div>
+              <div class="cup-label">الكوب 3</div>
+            </div>
+          </div>
+
+          <div class="cup-question-panel" id="cupQuestionBox">
+            <h4 id="cupQuestionTitle" style="color: var(--sea-blue); margin-bottom: 8px;">نص السؤال البيئي</h4>
+            <p id="cupQuestionDesc" style="margin-bottom: 12px; font-weight: 500;">صنف هذا التجمع حسب مستويات التنظيم البيئي:</p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;" id="cupOptionsGroup">
+              </div>
+            <div id="cupAnswerFeedback" style="margin-top: 12px; font-weight: bold; text-align: center;"></div>
+          </div>
+        </div>
+
+        <div id="game-tower" class="game-content" style="display:none;">
+          <h3 style="text-align:center; color: var(--earth-brown);">ابنِ برج مستويات التنظيم البيئي</h3>
+          <p style="text-align:center; font-size:0.9rem; margin-bottom: 10px;">رتّب من القاعدة إلى القمة (فرد ← جماعة حيوية ← مجتمع حيوي ← نظام بيئي):</p>
+          <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
+            <button class="action-btn" onclick="addTowerLevel('فرد')">فرد (سمكة مرجان واحدة)</button>
+            <button class="action-btn" onclick="addTowerLevel('جماعة حيوية')">جماعة حيوية (سرب أسماك)</button>
+            <button class="action-btn" onclick="addTowerLevel('مجتمع حيوي')">مجتمع حيوي (أسماك + شقائق نعمان)</button>
+            <button class="action-btn" onclick="addTowerLevel('نظام بيئي')">نظام بيئي (خليج العقبة كاملاً)</button>
+          </div>
+          <div class="tower-slots" id="towerSlots"></div>
+          <button class="action-btn" style="background:#dc2626; display:block; margin: 10px auto;" onclick="resetTower()">إعادة المحاولة 🔄</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="simulation" class="section-view">
+      <div class="card">
+        <h2 style="color: var(--primary-forest);">مختبر محاكاة النظم البيئية</h2>
+        <p>أضف المكونات الحية وغير الحية ولاحظ استقرار النظام البيئي:</p>
+        <div style="display:flex; gap: 10px; margin: 15px 0; flex-wrap:wrap;">
+          <button class="action-btn" onclick="addSimItem('🌳')">+ شجرة بلوط (منتج)</button>
+          <button class="action-btn" onclick="addSimItem('🐇')">+ أرنب بري (مستهلك أول)</button>
+          <button class="action-btn" onclick="addSimItem('🦊')">+ ثعلب أحمر (مستهلك ثانٍ)</button>
+          <button class="action-btn" onclick="addSimItem('☀️')">+ طاقة شمسية (مكون غير حي)</button>
+          <button class="action-btn" onclick="addSimItem('💧')">+ مصدر مياه (مكون غير حي)</button>
+          <button class="action-btn" style="background: #e63946;" onclick="clearSim()">تفريغ المختبر</button>
+        </div>
+        <div class="sim-board" id="simBoard"></div>
+        <div id="simStats" style="font-weight: bold; color: var(--primary-forest);">حالة النظام: بحاجة إلى مكونات حية وغير حية للبدء بالتوازن.</div>
+      </div>
+    </div>
+
+    <div id="quiz" class="section-view">
+      <div class="card">
+        <div class="quiz-progress">
+          <span id="roundIndicator">الجولة: 1 / 10</span>
+          <span id="questionIndicator">السؤال: 1 / 3 في هذه الجولة</span>
+          <span id="scoreDisplay">مجموع النقاط: 0</span>
+        </div>
+        <h3 id="quizQuestion" style="margin: 15px 0; color: #1e293b;">جاري تجهيز الاختبار...</h3>
+        <div class="options-grid" id="optionsContainer"></div>
+        <div id="quizFeedback" style="margin-top: 15px; font-weight: bold;"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-view').forEach(sec => sec.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+
+      const mascot = document.getElementById('mascotMessage');
+      if (tabId === 'concepts') mascot.innerText = "تعرف على مكونات بيئتنا الأردنية وعلاقاتها المتوازنة!";
+      if (tabId === 'games') mascot.innerText = "ألعاب العجلة والأكواب وبرج المستويات بانتظارك لتثبت مهارتك!";
+      if (tabId === 'simulation') mascot.innerText = "في المختبر، تذكر أن النظام البيئي يحتاج كائنات حية وعوامل غير حية ليتوازن!";
+      if (tabId === 'quiz') mascot.innerText = "أمامك 10 جولات حماسية.. أظهر مهارتك ومعلوماتك يا بطل العلوم!";
+    }
+
+    function switchGame(gameId) {
+      document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.game-content').forEach(g => g.style.display = 'none');
+      event.currentTarget.classList.add('active');
+      document.getElementById('game-' + gameId).style.display = 'block';
+    }
+
+    // -------------------------------------------------------------
+    // GAME 1: 10-Segment Wheel with Live Classification
+    // -------------------------------------------------------------
+    const wheelSegments = [
+      { name: "شجرة العرعر في ضانا", isAlive: true },
+      { name: "رمال صحراء وادي رم", isAlive: false },
+      { name: "حيوان الوعل النوبي", isAlive: true },
+      { name: "مياه خليج العقبة المالحة", isAlive: false },
+      { name: "صخور جبال البترا", isAlive: false },
+      { name: "سمكة المهرج المرجانية", isAlive: true },
+      { name: "طيور الدوري في عجلون", isAlive: true },
+      { name: "هواء ورياح الشوبك", isAlive: false },
+      { name: "فطر البلوط في الغابة", isAlive: true },
+      { name: "ضوء وحرارة الشمس", isAlive: false }
+    ];
+
+    let currentRotation = 0;
+    let selectedWheelItem = null;
+
+    function spinWheel() {
+      const spinBtn = document.getElementById('spinBtn');
+      spinBtn.disabled = true;
+      document.getElementById('wheelBox').style.display = 'none';
+      document.getElementById('wheelFeedback').innerText = '';
+
+      const segmentAngle = 36; // 360 / 10
+      const chosenIndex = Math.floor(Math.random() * 10);
+      const extraSpins = 360 * 5; // 5 full turns
+      currentRotation += extraSpins + (chosenIndex * segmentAngle) + (segmentAngle / 2);
+
+      const wheel = document.getElementById('wheelCircle');
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+      setTimeout(() => {
+        // Find which segment landed at the top pointer (0 deg)
+        const normalized = (currentRotation % 360);
+        const landedIndex = Math.floor(((360 - normalized) % 360) / segmentAngle);
+        selectedWheelItem = wheelSegments[landedIndex];
+
+        document.getElementById('wheelTargetText').innerText = `المكون الظاهر: (${selectedWheelItem.name})`;
+        document.getElementById('wheelBox').style.display = 'block';
+        spinBtn.disabled = false;
+      }, 3500);
+    }
+
+    function verifyWheelChoice(userSaidAlive) {
+      const fb = document.getElementById('wheelFeedback');
+      if (userSaidAlive === selectedWheelItem.isAlive) {
+        fb.innerHTML = "<span style='color:green;'>إجابة صحيحة ومتميزة! أحسنت التصنيف. 🌟👏</span>";
+      } else {
+        const correctText = selectedWheelItem.isAlive ? "مكون حي" : "مكون غير حي";
+        fb.innerHTML = `<span style='color:#dc2626;'>إجابة خاطئة! (${selectedWheelItem.name}) يعتبر: ${correctText}.</span>`;
+      }
+    }
+
+    // -------------------------------------------------------------
+    // GAME 2: Cups with Question Under Each (Levels of Organization)
+    // -------------------------------------------------------------
+    const cupQuestions = [
+      {
+        title: "كوب البيئة الجبلية",
+        scenario: "مجموعة من أشجار البلوط المتشابهة التي تعيش معاً في منطقة معينة من عجلون:",
+        correct: "جماعة حيوية"
+      },
+      {
+        title: "كوب البيئة البحرية",
+        scenario: "أسماك المرجان وقناديل البحر وسلاحف العقبة التي تعيش وتتفاعل معاً:",
+        correct: "مجتمع حيوي"
+      },
+      {
+        title: "كوب محمية ضانا",
+        scenario: "وعل نوبي واحد يتجول بين صخور ضانا الجبلية بحثاً عن طعامه:",
+        correct: "فرد"
+      },
+      {
+        title: "كوب النظام الشامل",
+        scenario: "مياه خليج العقبة وحرارتها وصخورها مع جميع الأسماك والأعشاب المرجانية:",
+        correct: "نظام بيئي"
+      }
+    ];
+
+    const organizationLevels = ["فرد", "جماعة حيوية", "مجتمع حيوي", "نظام بيئي"];
+    let activeCupQuestion = null;
+
+    function liftCup(cupIdx) {
+      for (let i = 0; i < 3; i++) {
+        document.getElementById(`cupIcon-${i}`).classList.remove('lifted');
+      }
+      document.getElementById(`cupIcon-${cupIdx}`).classList.add('lifted');
+
+      // Pick a question
+      activeCupQuestion = cupQuestions[(cupIdx + Math.floor(Math.random() * 2)) % cupQuestions.length];
+
+      document.getElementById('cupQuestionTitle').innerText = activeCupQuestion.title;
+      document.getElementById('cupQuestionDesc').innerText = activeCupQuestion.scenario;
+      document.getElementById('cupAnswerFeedback').innerText = '';
+
+      const optContainer = document.getElementById('cupOptionsGroup');
+      optContainer.innerHTML = '';
+
+      organizationLevels.forEach(lvl => {
+        const btn = document.createElement('button');
+        btn.className = 'action-btn';
+        btn.style.background = '#457b9d';
+        btn.innerText = lvl;
+        btn.onclick = () => checkCupAnswer(lvl);
+        optContainer.appendChild(btn);
+      });
+
+      document.getElementById('cupQuestionBox').style.display = 'block';
+    }
+
+    function checkCupAnswer(selectedLvl) {
+      const fb = document.getElementById('cupAnswerFeedback');
+      if (selectedLvl === activeCupQuestion.correct) {
+        fb.innerHTML = "<span style='color:green;'>إجابة علمية نموذجية! صنفت المستوى التنظيمي بدقة متناهية. 🏆✨</span>";
+      } else {
+        fb.innerHTML = `<span style='color:#dc2626;'>إجابة غير صحيحة، التصنيف العلمي الدقيق هو: (${activeCupQuestion.correct}).</span>`;
+      }
+    }
+
+    // -------------------------------------------------------------
+    // GAME 3: Organization Tower
+    // -------------------------------------------------------------
+    const correctTowerOrder = ['فرد', 'جماعة حيوية', 'مجتمع حيوي', 'نظام بيئي'];
+    let currentTower = [];
+
+    function addTowerLevel(level) {
+      if (currentTower.length >= 4) return;
+      const expected = correctTowerOrder[currentTower.length];
+      if (level === expected) {
+        currentTower.push(level);
+        const slot = document.getElementById('towerSlots');
+        const div = document.createElement('div');
+        div.className = 'tower-block';
+        div.innerText = `المستوى ${currentTower.length}: ${level}`;
+        slot.appendChild(div);
+        if (currentTower.length === 4) {
+          alert('رائع جداً يا عالمنا الصغير! اكتمل برج مستويات التنظيم البيئي بنجاح! 🏗️🌟');
+        }
+      } else {
+        alert(`المستوى غير صحيح في هذا الترتيب! المستوى المناسب التالي هو: (${expected})`);
+      }
+    }
+
+    function resetTower() {
+      currentTower = [];
+      document.getElementById('towerSlots').innerHTML = '';
+    }
+
+    // -------------------------------------------------------------
+    // Section 3: Simulator
+    // -------------------------------------------------------------
+    const simItems = [];
+    function addSimItem(symbol) {
+      simItems.push(symbol);
+      const board = document.getElementById('simBoard');
+      const span = document.createElement('span');
+      span.className = 'sim-item';
+      span.innerText = symbol;
+      board.appendChild(span);
+      updateSimStatus();
+    }
+
+    function clearSim() {
+      simItems.length = 0;
+      document.getElementById('simBoard').innerHTML = '';
+      updateSimStatus();
+    }
+
+    function updateSimStatus() {
+      const stats = document.getElementById('simStats');
+      const hasProducer = simItems.includes('🌳');
+      const hasConsumer = simItems.includes('🐇') || simItems.includes('🦊');
+      const hasSun = simItems.includes('☀️');
+      const hasWater = simItems.includes('💧');
+
+      if (hasProducer && hasConsumer && hasSun && hasWater) {
+        stats.innerHTML = "حالة النظام: <span style='color:green;'>نظام بيئي متزن ومستدام بكافة عناصره الأساسية! 🌿✨</span>";
+      } else {
+        stats.innerHTML = "حالة النظام: <span style='color:orange;'>غير مكتمل الاتزان - تأكد من دمج المنتجات، المستهلكات، والماء والضوء!</span>";
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Section 4: Quiz (10 rounds x 3 questions = 30 questions)
+    // -------------------------------------------------------------
+    const allQuizQuestions = [
+      // Round 1
+      { q: "ما الذي يميز النظام البيئي؟", o: ["مكونات حية فقط", "مكونات غير حية فقط", "تفاعل بين كائنات حية ومكونات غير حية", "غياب التفاعل"], a: 2 },
+      { q: "أي الآتية يعد مكوناً غير حي في غابات عجلون؟", o: ["شجرة السنديان", "التربة والصخور", "الثعلب الأحمر", "دودة الأرض"], a: 1 },
+      { q: "تعتبر محمية ضانا مثالاً على نظام بيئي:", o: ["بحري عميق", "جبلي وصحراوي أردني", "قطبي متجمد", "استوائي ماطر"], a: 1 },
+
+      // Round 2
+      { q: "ما هو المستوى الأول من مستويات التنظيم البيئي؟", o: ["النظام البيئي", "الجماعة الحيوية", "الفرد", "المجتمع الحيوي"], a: 2 },
+      { q: "مجموعة من الأرانب البرية من نفس النوع تعيش في عجلون تمثل:", o: ["فرداً", "جماعة حيوية", "نظاماً بيئياً كاملاً", "مكوناً غير حي"], a: 1 },
+      { q: "خليج العقبة يمثل بيئة:", o: ["مائية بحرية", "صحراوية جافة", "جليدية", "غابات صنوبرية"], a: 0 },
+
+      // Round 3
+      { q: "الكائنات التي تصنع غذاءها بنفسها بعملية البناء الضوئي تسمى:", o: ["مستهلكات أولى", "منتجات", "محللات", "مفترسات"], a: 1 },
+      { q: "الضوء والحرارة والماء في خليج العقبة تمثل:", o: ["مكونات حية", "مكونات غير حية", "مجتمعات حيوية", "مستهلكات"], a: 1 },
+      { q: "حيوان الوعل النوبي في ضانا يعد:", o: ["مستهلكاً يتغذى على النباتات", "كائناً غير حي", "منتجاً للغذاء", "مصدراً للضوء"], a: 0 },
+
+      // Round 4
+      { q: "المجتمع الحيوي يتكون من:", o: ["فرد واحد فقط", "مكونات غير حية فقط", "جماعات حيوية مختلفة تعيش في منطقة واحدة", "ماء وهواء فقط"], a: 2 },
+      { q: "أي الكائنات التالية تعتبر مستهلكاً ثانياً؟", o: ["شجرة البلوط", "الأرنب", "الذئب الذي يأكل الأرنب", "الأعشاب البرية"], a: 2 },
+      { q: "تساقط الأمطار في غابات عجلون يمثل عاملاً:", o: ["حيوياً", "غير حيوي", "جماعة حيوية", "مستهلكاً ثالثاً"], a: 1 },
+
+      // Round 5
+      { q: "ماذا يحدث لو اختفت النباتات تماماً من نظام بيئي؟", o: ["تزدهر الحيوانات", "ينهار النظام البيئي لغياب الغذاء", "يزيد الماء", "لا يتأثر شيء"], a: 1 },
+      { q: "مستعمرات المرجان والأسماك معاً في العقبة تشكل:", o: ["مجتمعاً حيوياً", "فرداً واحداً", "جماداً", "غلافاً جوياً"], a: 0 },
+      { q: "شجرة العرعر في ضانا تعد من المكونات:", o: ["غير الحية", "الحية (المنتجة)", "المستهلكة", "المتحللة"], a: 1 },
+
+      // Round 6
+      { q: "تعتمد السلسلة الغذائية في بدايتها دوماً على:", o: ["المفترس", "المحللات", "المنتجات (كالنباتات والطحالب)", "المستهلك الثاني"], a: 2 },
+      { q: "الهواء الذي تتنفسه الكائنات الحية في عجلون هو:", o: ["مكون غير حي", "مكون حي", "جماعة حيوية", "فرد"], a: 0 },
+      { q: "أي من المحميات الأردنية الآتية تشتهر بغابات السنديان؟", o: ["محمية عجلون", "محمية الموجب", "محمية الشومري", "محمية العقبة"], a: 0 },
+
+      // Round 7
+      { q: "تسمى العلاقة المتبادلة بين كائنات النظام البيئي لضمان البقاء بـ:", o: ["التناحر العشوائي", "التوازن البيئي", "الانقراض", "التفكك"], a: 1 },
+      { q: "طحالب بحرية تتغذى عليها الأسماك الصغيرة في العقبة، الطحالب تعتبر:", o: ["مستهلكاً", "منتجاً للغذاء", "مكوناً غير حي", "محللاً نهائياً"], a: 1 },
+      { q: "أي البيئات التالية تمتاز بدرجات حرارة عالية وندرة مياه في الأردن؟", o: ["البيئة الصحراوية", "غابات عجلون", "مياه العقبة", "مرتفعات السلط"], a: 0 },
+
+      // Round 8
+      { q: "تشمل المكونات غير الحية كلاً مما يلي ما عدا:", o: ["التربة", "الطيور المغردة", "أشعة الشمس", "الماء"], a: 1 },
+      { q: "تنوع الكائنات الحية داخل البيئة الواحدة يسمى:", o: ["التنوع الحيوي", "التنظيم الصخري", "المجتمع الميت", "الانعزال"], a: 0 },
+      { q: "المكان الطبيعي الذي يعيش فيه الكائن الحي ويجد فيه احتياجاته يسمى:", o: ["الموطن", "المصنع", "المختبر", "البرج"], a: 0 },
+
+      // Round 9
+      { q: "أي مما يلي يصف 'الجماعة الحيوية' بدقة؟", o: ["جميع أسماك القرش من نفس النوع في العقبة", "سمكة وقنديل بحر وماء", "صخور وشمس", "كائن واحد فقط"], a: 0 },
+      { q: "دور الفطريات والبكتيريا في النظام البيئي هو:", o: ["تحليل بقايا الكائنات الميتة وإعادة تدويرها", "صنع الغذاء بالبناء الضوئي", "افتراس الكائنات الكبيرة", "إيقاف الأمطار"], a: 0 },
+      { q: "حماية غابات عجلون ومحميات الأردن تساهم في:", o: ["تدمير الموطن", "الحفاظ على التنوع الحيوي واستقراره", "تقليل المساحات الخضراء", "طرد الحيوانات"], a: 1 },
+
+      // Round 10
+      { q: "أعلى مستوى تنظيمي بيئي من الآتي هو:", o: ["الفرد", "الجماعة الحيوية", "المجتمع الحيوي", "النظام البيئي"], a: 3 },
+      { q: "الشمس تعتبر المصدر الأساسي لـ:", o: ["الطاقة في النظام البيئي", "تكوين الصخور فقط", "تنفس الحيوانات", "سكن الكائنات الحية"], a: 0 },
+      { q: "كل ما يحيط بالكائن الحي من كائنات ومواد يؤثر فيها ويتأثر بها يمثل:", o: ["البيئة", "الخلية", "الهيكل العظمي", "الغلاف الصخري فقط"], a: 0 }
+    ];
+
+    let currentQIndex = 0;
+    let score = 0;
+
+    function renderQuestion() {
+      const q = allQuizQuestions[currentQIndex];
+      const round = Math.floor(currentQIndex / 3) + 1;
+      const qInRound = (currentQIndex % 3) + 1;
+
+      document.getElementById('roundIndicator').innerText = `الجولة: ${round} / 10`;
+      document.getElementById('questionIndicator').innerText = `السؤال: ${qInRound} / 3`;
+      document.getElementById('scoreDisplay').innerText = `مجموع النقاط: ${score}`;
+      document.getElementById('quizQuestion').innerText = q.q;
+      document.getElementById('quizFeedback').innerText = '';
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+
+      q.o.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(idx, q.a, btn);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(chosen, correct, btn) {
+      const allBtns = document.querySelectorAll('.option-btn');
+      allBtns.forEach(b => b.disabled = true);
+
+      if (chosen === correct) {
+        btn.classList.add('correct');
+        score += 10;
+        document.getElementById('quizFeedback').innerHTML = "<span style='color:green;'>إجابة علمية دقيقة وممتازة! 🌟</span>";
+      } else {
+        btn.classList.add('wrong');
+        allBtns[correct].classList.add('correct');
+        document.getElementById('quizFeedback').innerHTML = "<span style='color:#dc2626;'>إجابة غير صحيحة، ركز في السؤال القادم!</span>";
+      }
+
+      setTimeout(() => {
+        currentQIndex++;
+        if (currentQIndex < allQuizQuestions.length) {
+          renderQuestion();
+        } else {
+          showFinalCertificate();
+        }
+      }, 1400);
+    }
+
+    function showFinalCertificate() {
+      const container = document.getElementById('quiz');
+      container.innerHTML = `
+        <div class="card" style="text-align: center; border: 4px solid var(--forest-light); padding: 40px;">
+          <h1 style="color: var(--primary-forest); margin-bottom: 10px;">🎓 وسام مستكشف النظم البيئية المعتمد 🎓</h1>
+          <p style="font-size: 1.1rem; margin-bottom: 20px;">تتقدم <strong>مدرسة الكوكب الدري النموذجية</strong> وبإشراف <strong>المعلمة: حنين بدران</strong></p>
+          <p style="font-size: 1.2rem; color: var(--earth-brown); margin-bottom: 15px;">بتهنئة الطالب المتميز لإتمامه 10 جولات تفاعلية بمجموع نقاط:</p>
+          <div style="font-size: 3.2rem; font-weight: 900; color: var(--accent-coral); margin-bottom: 20px;">${score} / 300</div>
+          <p style="font-weight: bold; color: var(--primary-forest);">أثبتّ براعتك في فهم الكائنات الحية والمكونات غير الحية ومستويات تنظيمها الطبيعية!</p>
+          <button class="action-btn" style="margin-top: 25px;" onclick="location.reload()">خوض التحدي من جديد 🔄</button>
+        </div>
+      `;
+    }
+
+    // Initialize Quiz
+    renderQuestion();
+  </script>
+</body>
+</html>
